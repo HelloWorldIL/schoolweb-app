@@ -4,7 +4,7 @@
 
 <script>
 if (process.client) {
-  require('particles.js')
+  import('particles.js')
 }
 
 export default {

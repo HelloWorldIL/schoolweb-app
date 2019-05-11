@@ -42,7 +42,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ['@neneos/nuxt-animate.css'],
 
   /*
    ** Build configuration
