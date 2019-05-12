@@ -14,7 +14,7 @@
 		v-card-actions
 			v-layout(row wrap)
 				v-flex(xs12 class="text-xs-center")
-					v-btn(depressed round color="#0a4bb2" dark)
+					v-btn(depressed round color="#0a4bb2" dark @click="login()")
 						| Log In
 						v-icon(right) lock_open
 				v-flex(xs12 class="mt-3 text-xs-center")
@@ -27,6 +27,21 @@ export default {
     return {
       email: '',
       password: ''
+    }
+  },
+  methods: {
+    login() {
+      this.$store
+        .dispatch('auth/loginUsingEmail', {
+          email: this.email,
+          password: this.password
+        })
+        .then(user => {
+          alert(user)
+        })
+        .catch(error => {
+          alert(error)
+        })
     }
   }
 }

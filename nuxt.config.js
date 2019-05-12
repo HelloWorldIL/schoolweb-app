@@ -37,7 +37,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '@/plugins/firebase'],
 
   /*
    ** Nuxt.js modules
@@ -69,5 +69,8 @@ module.exports = {
         })
       }
     }
+  },
+  router: {
+    middleware: 'router-auth'
   }
 }

@@ -3,7 +3,6 @@
     v-layout(row wrap justify-center)
       v-flex(xs10 sm7 md5)
         login()
-        h1 {{email}}
 
 </template>
 
