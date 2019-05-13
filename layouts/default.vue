@@ -1,13 +1,13 @@
 <template lang="pug">
   v-app()
     v-content(class="text-xs-center")
-      navigation
+      navigation(v-if="isLoaded")
       v-container(fluid fill-height class="pa-0")
         particles(class="particles hidden-sm-and-down")
         v-container(fluid)
           v-layout(column align-center justify-center)
             transition(name="fade-transition" leave-active-class="animated fadeOut" enter-acitve-class="animated fadeIn")
-              nuxt(class="bring-to-top")
+              nuxt(class="bring-to-top" v-if="isLoaded")
 </template>
 
 <script>
@@ -19,6 +19,14 @@ export default {
   components: {
     navigation,
     particles
+  },
+  data: function() {
+    return {
+      isLoaded: false
+    }
+  },
+  mounted() {
+    this.isLoaded = this.$store.getters['auth/isLoaded']
   }
 }
 </script>

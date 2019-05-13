@@ -1,5 +1,9 @@
+import firebase from 'firebase/app'
+
 export default function({ store, redirect, route }) {
-  if (store.state.auth.user != null && route.name === 'login') {
-    return redirect('/')
-  }
+  firebase.auth().onAuthStateChanged(user => {
+    if (user && route.name === 'login') {
+      return redirect('/')
+    }
+  })
 }

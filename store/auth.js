@@ -1,17 +1,27 @@
 import firebase from 'firebase'
 export const state = () => ({
-  user: null
+  user: null,
+  loaded: false
 })
 
 export const getters = {
   isAuthenticated: state => {
     return state.user != null
+  },
+  currentUser: state => {
+    return state.user
+  },
+  isLoaded: state => {
+    return state.loaded
   }
 }
 
 export const mutations = {
   setUser(state, user) {
     state.user = user
+  },
+  setLoaded(state, status) {
+    state.loaded = status
   }
 }
 
@@ -28,5 +38,9 @@ export const actions = {
           reject(error)
         })
     })
+  },
+  logOut({ commit }) {
+    firebase.auth().signOut()
+    commit('setUser', null)
   }
 }
