@@ -6,6 +6,7 @@
     v-flex
       v-btn(outline round color="white" large to="/about") About Us
       v-btn(outline round color="white" large to="/login" v-if="!user") Login
+      v-btn(round color="accent" large to="/satellites" v-if="user") Manage Satellites
   </template>
 
 <script>
