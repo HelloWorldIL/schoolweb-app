@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+
 export const state = () => ({
   user: null,
   loaded: false

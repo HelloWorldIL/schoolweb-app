@@ -1,9 +1,13 @@
 <template lang="pug">
-  v-card
-    v-container(fluid grid-list-xl)
-      v-layout(row wrap)
-        v-flex(v-for="satellite in satellites" :key="id")
-          satellite(:name="satellite.name" :id="satellite.id" :imageUrl="satellite.imageURL")
+  div
+    v-container()
+      v-btn(color="secondary" large class="pt-50") Add A Satellite
+    v-card
+      v-container(fluid grid-list-xl)
+        v-layout(row wrap)
+          v-flex(v-for="satellite in satellites" :key="satellite.id")
+            satellite(:name="satellite.name" :id="satellite.id" imageUrl="satellite.imageURL" v-if="satellites")
+            h1 {{satellites[0].name}}
 </template>
 
 <script>
@@ -14,40 +18,15 @@ export default {
     satellite
   },
   data() {
-    return {
-      satellites: [
-        {
-          name: 'Dove',
-          id: '44215',
-          imageURL:
-            'https://www.birdlife.org/sites/default/files/styles/1600/public/news/european_turtle_dove_streptopelia_turtur_websitec_revital_salomon.jpg?itok=FaPEfAzi'
-        },
-        {
-          name: 'Hoopoe',
-          id: '44215',
-          imageURL:
-            'http://voice.gardenbird.co.uk/wp-content/uploads/2018/01/Fotolia_160919141_Subscription_L-1200x800.jpg'
-        },
-        {
-          name: 'Hoopoe',
-          id: '44215',
-          imageURL:
-            'http://voice.gardenbird.co.uk/wp-content/uploads/2018/01/Fotolia_160919141_Subscription_L-1200x800.jpg'
-        },
-        {
-          name: 'Hoopoe',
-          id: '44215',
-          imageURL:
-            'http://voice.gardenbird.co.uk/wp-content/uploads/2018/01/Fotolia_160919141_Subscription_L-1200x800.jpg'
-        },
-        {
-          name: 'Hoopoe',
-          id: '44215',
-          imageURL:
-            'http://voice.gardenbird.co.uk/wp-content/uploads/2018/01/Fotolia_160919141_Subscription_L-1200x800.jpg'
-        }
-      ]
+    return {}
+  },
+  computed: {
+    satellites: function() {
+      return this.$store.state.satellites.satellites
     }
+  },
+  mounted() {
+    this.$store.dispatch('satellites/loadSatellites')
   }
 }
 </script>
