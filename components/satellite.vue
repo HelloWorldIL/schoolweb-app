@@ -1,6 +1,6 @@
 <template lang="pug">
-  v-card(width="500px")
-    v-img(:src="`http://voice.gardenbird.co.uk/wp-content/uploads/2018/01/Fotolia_160919141_Subscription_L-1200x800.jpg`" cover)
+  v-card(height="100%")
+    v-img(:src="imageUrl" height="60%")
     v-card-title
       v-container(fill-height fluid pa-0)
         v-layout(column align-center justify-center)

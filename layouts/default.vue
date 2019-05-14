@@ -1,9 +1,9 @@
 <template lang="pug">
   v-app()
+    navigation(v-if="isLoaded")
+    particles(class="particles hidden-sm-and-down")
     v-content(class="text-xs-center")
-      particles(class="particles hidden-sm-and-down")
-      navigation(v-if="isLoaded")
-      v-container(fluid fill-height pl-0 pr-0 pb-0 mt-50)
+      v-container(fluid fill-height)
         v-layout(column align-center justify-center)
           transition(name="fade-transition" leave-active-class="animated fadeOut" enter-acitve-class="animated fadeIn")
             nuxt(class="bring-to-top" v-if="isLoaded")

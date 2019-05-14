@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-toolbar(color="transparent" flat dark)
+  v-toolbar(app color="transparent" flat dark absolute)
     v-toolbar-side-icon(v-if="$route.path != `/`" to="/")
       v-icon satellite
     v-spacer
