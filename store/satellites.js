@@ -20,7 +20,8 @@ export const mutations = {
         return element
       }
     })
-    state.satellites[index] = sat
+    state.satellites.splice(index, 1, sat)
+    // state.satellites[index] = sat
   },
   removeSatellite(state, id) {
     const index = state.satellites.findIndex(element => {

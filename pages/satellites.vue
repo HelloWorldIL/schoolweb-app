@@ -25,6 +25,11 @@ export default {
       return this.$store.state.satellites.satellites
     }
   },
+  watch: {
+    satellites(prev, current) {
+      alert(current)
+    }
+  },
   mounted() {
     this.$store.dispatch('satellites/loadSatellites')
   }
