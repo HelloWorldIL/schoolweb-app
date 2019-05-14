@@ -21,7 +21,6 @@ export const mutations = {
       }
     })
     state.satellites.splice(index, 1, sat)
-    // state.satellites[index] = sat
   },
   removeSatellite(state, id) {
     const index = state.satellites.findIndex(element => {
@@ -35,6 +34,9 @@ export const mutations = {
 
 export const actions = {
   loadSatellites({ commit, state }) {
+    if (state.satellites[0] != null) {
+      return Promise.resolve()
+    }
     const satellites = firebase.firestore().collection('satellites')
     satellites.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(satDoc => {

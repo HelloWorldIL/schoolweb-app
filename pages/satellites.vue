@@ -7,7 +7,6 @@
         v-layout(row wrap)
           v-flex(v-for="satellite in satellites" :key="satellite.id")
             satellite(:name="satellite.name" :id="satellite.id" imageUrl="satellite.imageURL" v-if="satellites")
-            h1 {{satellites[0].name}}
 </template>
 
 <script>
@@ -23,11 +22,6 @@ export default {
   computed: {
     satellites: function() {
       return this.$store.state.satellites.satellites
-    }
-  },
-  watch: {
-    satellites(prev, current) {
-      alert(current)
     }
   },
   mounted() {
