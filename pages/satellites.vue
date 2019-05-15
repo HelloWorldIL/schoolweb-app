@@ -7,7 +7,7 @@
         addSat(v-model="showDialog")
         v-layout(row wrap)
           v-flex(v-for="satellite in satellites" :key="satellite.id")
-            satellite(:name="satellite.name" :id="satellite.id" imageUrl="satellite.imageURL" v-if="satellites")
+            satellite(:name="satellite.name" :id="satellite.id" :imageUrl="satellite.imageUrl" v-if="satellites")
 </template>
 
 <script>

@@ -10,7 +10,8 @@
               v-text-field(v-model="name" label="Name" hint="Example: Hoopoe")
               v-text-field(v-model="id" label="ID" hint="Example: 41451")
             v-flex(xs12)
-              v-btn(dark) Upload An Image
+              upload-btn(title="Upload An Image" @file-update="fileUpdate")
+              v-img(:src="imageUrl")
       v-card-actions
         v-spacer
         v-btn(color="blue darken-1" flat @click="show = false") Close
@@ -28,7 +29,9 @@ export default {
   data() {
     return {
       name: '',
-      id: ''
+      id: '',
+      imageUrl: '',
+      image: null
     }
   },
   computed: {
@@ -45,9 +48,18 @@ export default {
     add: function() {
       this.$store.dispatch('satellites/addSatellite', {
         id: this.id,
-        name: this.name
+        name: this.name,
+        image: this.image
       })
       this.show = false
+    },
+    fileUpdate: function(file) {
+      const fr = new FileReader()
+      fr.addEventListener('load', () => {
+        this.imageUrl = fr.result
+      })
+      fr.readAsDataURL(file)
+      this.image = file
     }
   }
 }

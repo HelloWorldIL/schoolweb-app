@@ -1,4 +1,4 @@
-import { db } from '~/services/firebaseinit'
+import { db, storage } from '~/services/firebaseinit'
 const satellites = db.collection('satellites')
 
 export const state = () => ({
@@ -8,6 +8,14 @@ export const state = () => ({
 export const getters = {
   getSatellites(state) {
     return state.satellites
+  },
+  getSatellite: state => id => {
+    const index = state.satellites.findIndex(element => {
+      if (element.id === id) {
+        return element
+      }
+    })
+    return state.satellites[index]
   }
 }
 
@@ -46,6 +54,7 @@ export const actions = {
           const sat = {
             id: satDoc.doc.id,
             name: satDoc.doc.get('name'),
+            imageName: satDoc.doc.get('imageName'),
             imageUrl: satDoc.doc.get('imageUrl')
           }
           commit('addSatellite', sat)
@@ -53,6 +62,7 @@ export const actions = {
           const sat = {
             id: satDoc.doc.id,
             name: satDoc.doc.get('name'),
+            imageName: satDoc.doc.get('imageName'),
             imageUrl: satDoc.doc.get('imageUrl')
           }
           commit('editSat', sat)
@@ -61,12 +71,36 @@ export const actions = {
     })
     return Promise.resolve(state.satellites)
   },
-  addSatellite({ commit }, satellite) {
-    return satellites.doc(satellite.id).set({
-      name: satellite.name
-    })
+  addSatellite({ commit, dispatch }, satellite) {
+    const filename = satellite.image.name
+    const ext = filename.slice(filename.lastIndexOf('.'))
+    storage()
+      .ref(`satellites/${satellite.id}${ext}`)
+      .put(satellite.image)
+      .then(() => {
+        storage()
+          .ref(`satellites/${satellite.id}${ext}`)
+          .getDownloadURL()
+          .then(imageUrl => {
+            return satellites.doc(satellite.id).set({
+              name: satellite.name,
+              imageName: `${satellite.id}${ext}`,
+              imageUrl: `${imageUrl}`
+            })
+          })
+      })
   },
-  deleteSatellite({ commit }, id) {
+  deleteSatellite({ commit, getters }, id) {
+    const filename = getters.getSatellite(id).imageName
+    storage()
+      .ref(`satellites/${filename}`)
+      .delete()
     return satellites.doc(id).delete()
+  },
+  getImageUrl({ commit, getters }, id) {
+    const filename = getters.getSatellite(id).imageName
+    return storage()
+      .ref(`satellites/${filename}`)
+      .getDownloadURL()
   }
 }
