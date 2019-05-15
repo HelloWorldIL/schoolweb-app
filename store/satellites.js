@@ -60,5 +60,11 @@ export const actions = {
       })
     })
     return Promise.resolve(state.satellites)
+  },
+  addSatellite({ commit }, satellite) {
+    const satellites = firebase.firestore().collection('satellites')
+    return satellites.doc(satellite.id).set({
+      name: satellite.name
+    })
   }
 }
