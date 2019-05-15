@@ -1,4 +1,5 @@
-import firebase from 'firebase/app'
+import { db } from '~/services/firebaseinit'
+const satellites = db.collection('satellites')
 
 export const state = () => ({
   satellites: []
@@ -37,7 +38,6 @@ export const actions = {
     if (state.satellites[0] != null) {
       return Promise.resolve()
     }
-    const satellites = firebase.firestore().collection('satellites')
     satellites.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(satDoc => {
         if (satDoc.type === 'removed') {
@@ -62,9 +62,11 @@ export const actions = {
     return Promise.resolve(state.satellites)
   },
   addSatellite({ commit }, satellite) {
-    const satellites = firebase.firestore().collection('satellites')
     return satellites.doc(satellite.id).set({
       name: satellite.name
     })
+  },
+  deleteSatellite({ commit }, id) {
+    return satellites.doc(id).delete()
   }
 }

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     remove() {
-      this.$store.commit('satellites/removeSatellite', this.id)
+      this.$store.dispatch('satellites/deleteSatellite', this.id)
     }
   }
 }
