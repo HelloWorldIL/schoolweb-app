@@ -74,21 +74,24 @@ export const actions = {
   addSatellite({ commit, dispatch }, satellite) {
     const filename = satellite.image.name
     const ext = filename.slice(filename.lastIndexOf('.'))
-    storage()
-      .ref(`satellites/${satellite.id}${ext}`)
-      .put(satellite.image)
-      .then(() => {
-        storage()
-          .ref(`satellites/${satellite.id}${ext}`)
-          .getDownloadURL()
-          .then(imageUrl => {
-            return satellites.doc(satellite.id).set({
-              name: satellite.name,
-              imageName: `${satellite.id}${ext}`,
-              imageUrl: `${imageUrl}`
+    return new Promise(function(resolve, reject) {
+      storage()
+        .ref(`satellites/${satellite.id}${ext}`)
+        .put(satellite.image)
+        .then(() => {
+          storage()
+            .ref(`satellites/${satellite.id}${ext}`)
+            .getDownloadURL()
+            .then(imageUrl => {
+              satellites.doc(satellite.id).set({
+                name: satellite.name,
+                imageName: `${satellite.id}${ext}`,
+                imageUrl: `${imageUrl}`
+              })
+              resolve()
             })
-          })
-      })
+        })
+    })
   },
   deleteSatellite({ commit, getters }, id) {
     const filename = getters.getSatellite(id).imageName

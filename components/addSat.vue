@@ -15,7 +15,7 @@
       v-card-actions
         v-spacer
         v-btn(color="blue darken-1" flat @click="show = false") Close
-        v-btn(color="blue darken-1" flat @click="add()") Save
+        v-btn(color="blue darken-1" flat @click="add()" :loading="loading") Save
 </template>
 
 <script>
@@ -31,7 +31,8 @@ export default {
       name: '',
       id: '',
       imageUrl: '',
-      image: null
+      image: null,
+      loading: false
     }
   },
   computed: {
@@ -46,12 +47,17 @@ export default {
   },
   methods: {
     add: function() {
-      this.$store.dispatch('satellites/addSatellite', {
-        id: this.id,
-        name: this.name,
-        image: this.image
-      })
-      this.show = false
+      this.loading = true
+      this.$store
+        .dispatch('satellites/addSatellite', {
+          id: this.id,
+          name: this.name,
+          image: this.image
+        })
+        .then(() => {
+          this.show = false
+          this.loading = false
+        })
     },
     fileUpdate: function(file) {
       const fr = new FileReader()
