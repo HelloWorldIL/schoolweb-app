@@ -49,7 +49,7 @@ export default {
     add: function() {
       this.loading = true
       this.$store
-        .dispatch('satellites/addSatelliteToDB', {
+        .dispatch('satellites/addSatellite', {
           id: this.id,
           name: this.name,
           image: this.image

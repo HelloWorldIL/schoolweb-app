@@ -98,7 +98,7 @@ export const actions = {
       })
     })
   },
-  addSatelliteToDB({ commit, dispatch }, satellite) {
+  addSatellite({ commit, dispatch }, satellite) {
     const filename = satellite.image.name
     const ext = filename.slice(filename.lastIndexOf('.'))
     return new Promise(function(resolve, reject) {
