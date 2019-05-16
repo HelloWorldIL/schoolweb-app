@@ -1,7 +1,7 @@
 <template lang="pug">
   v-app()
     navigation(v-if="isLoaded")
-    particles(class="particles hidden-sm-and-down")
+    particles(class="particles")
     v-content(class="text-xs-center")
       v-container(fluid fill-height)
         v-layout(column align-center justify-center)

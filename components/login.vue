@@ -12,7 +12,7 @@
             v-flex(xs10 sm10)
               v-text-field(outline v-model="email" label="Email" required)
             v-flex(xs10 sm10)
-              v-text-field(outline v-model="password" label="Password" required)
+              v-text-field(outline v-model="password" label="Password" required type="password")
       v-card-actions
         v-layout(row wrap)
           v-flex(xs12 class="text-xs-center")
