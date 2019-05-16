@@ -10,7 +10,7 @@
         v-form()
           v-layout(row wrap justify-center)
             v-flex(xs10 sm10)
-              v-text-field(outline v-model="email" label="Email" required)
+              v-text-field(outline v-model="email" label="Email" type="email")
             v-flex(xs10 sm10)
               v-text-field(outline v-model="password" label="Password" required type="password")
       v-card-actions
@@ -32,7 +32,8 @@ export default {
     return {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      timeout: null
     }
   },
   methods: {
@@ -44,8 +45,15 @@ export default {
         })
         .then(user => {})
         .catch(error => {
-          this.error = error
+          this.raiseError(error)
         })
+    },
+    raiseError(error) {
+      this.error = error
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        this.error = ''
+      }, 10000)
     }
   }
 }

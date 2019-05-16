@@ -5,12 +5,10 @@ export default ({ store }) => {
     auth.onAuthStateChanged(function(user) {
       store.commit('auth/setLoaded', true)
       if (user) {
+        // eslint-disable-next-line no-console
+        console.log(user)
         return resolve(
-          store.commit('auth/setUser', {
-            email: user.email,
-            uid: user.uid,
-            name: user.displayName
-          })
+          store.commit('auth/setUser', JSON.parse(JSON.stringify(user)))
         )
       }
       return resolve()

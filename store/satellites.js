@@ -15,13 +15,23 @@ export const getters = {
         return element
       }
     })
+    if (index === -1) {
+      return null
+    }
     return state.satellites[index]
   }
 }
 
 export const mutations = {
   addSatellite(state, sat) {
-    state.satellites.push(sat)
+    const index = state.satellites.findIndex(element => {
+      if (element.id === sat.id) {
+        return element
+      }
+    })
+    if (index === -1) {
+      state.satellites.push(sat)
+    }
   },
   editSat(state, sat) {
     const index = state.satellites.findIndex(element => {
@@ -42,10 +52,28 @@ export const mutations = {
 }
 
 export const actions = {
-  loadSatellites({ commit, state }) {
-    if (state.satellites[0] != null) {
-      return Promise.resolve()
-    }
+  loadSatellites({ commit, state, dispatch }) {
+    return new Promise(function(resolve, reject) {
+      if (state.satellites.length > 0) {
+        resolve(state.satellites)
+      } else {
+        satellites.get().then(snapshot => {
+          snapshot.forEach(satDoc => {
+            const sat = {
+              id: satDoc.id,
+              name: satDoc.get('name'),
+              imageName: satDoc.get('imageName'),
+              imageUrl: satDoc.get('imageUrl')
+            }
+            commit('addSatellite', sat)
+          })
+          resolve(state.satellites)
+        })
+      }
+      dispatch('registerSatelliteListener')
+    })
+  },
+  registerSatelliteListener({ commit, state }) {
     satellites.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(satDoc => {
         if (satDoc.type === 'removed') {
@@ -69,9 +97,8 @@ export const actions = {
         }
       })
     })
-    return Promise.resolve(state.satellites)
   },
-  addSatellite({ commit, dispatch }, satellite) {
+  addSatelliteToDB({ commit, dispatch }, satellite) {
     const filename = satellite.image.name
     const ext = filename.slice(filename.lastIndexOf('.'))
     return new Promise(function(resolve, reject) {

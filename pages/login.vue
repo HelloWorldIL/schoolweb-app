@@ -1,8 +1,6 @@
 <template lang="pug">
-  v-container(fluid)
-    v-layout(row wrap justify-center)
-      v-flex(xs10 sm7 md5)
-        login()
+  v-flex(xs12 sm10 md8 lg5 xl4)
+    login()
 
 </template>
 
