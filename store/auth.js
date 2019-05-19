@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import { auth } from '~/services/firebaseinit'
 
 export const state = () => ({
   user: null,
@@ -29,8 +29,7 @@ export const mutations = {
 export const actions = {
   loginUsingEmail({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      firebase
-        .auth()
+      auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
           resolve(user)
@@ -40,8 +39,35 @@ export const actions = {
         })
     })
   },
+  signUpUsingEmail({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      auth()
+        .createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(user => {
+          user.user.updateProfile(payload.name).then(() => {
+            resolve(user.user)
+          })
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  signInUsingGoogle({ commit }) {
+    return new Promise((resolve, reject) => {
+      const provider = new auth.GoogleAuthProvider()
+      auth()
+        .signInWithPopup(provider)
+        .then(user => {
+          resolve(user)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
   logOut({ commit }) {
-    firebase.auth().signOut()
+    auth().signOut()
     commit('setUser', null)
   }
 }

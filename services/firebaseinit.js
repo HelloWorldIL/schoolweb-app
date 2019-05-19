@@ -1,21 +1,23 @@
 import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/storage'
 import 'firebase/firestore'
 
 if (!firebase.apps.length) {
   const config = {
-    apiKey: 'AIzaSyCgmPj_fg9d3TLa-M70JQ2xX2WZDmlPUBE',
-    authDomain: 'schoolwebapp-4e498.firebaseapp.com',
-    databaseURL: 'https://schoolwebapp-4e498.firebaseio.com',
-    projectId: 'schoolwebapp-4e498',
-    storageBucket: 'schoolwebapp-4e498.appspot.com',
-    messagingSenderId: '342704817343',
-    appId: '1:342704817343:web:9abb68d8a9b6a697'
+    apiKey: 'AIzaSyBcPNTg5hx3etRfdmCMNb3XPMHVFY736ok',
+    authDomain: 'schoolwebsite-976de.firebaseapp.com',
+    databaseURL: 'https://schoolwebsite-976de.firebaseio.com',
+    projectId: 'schoolwebsite-976de',
+    storageBucket: 'schoolwebsite-976de.appspot.com',
+    messagingSenderId: '254501702467',
+    appId: '1:254501702467:web:3312d4eb90218a43'
   }
 
   firebase.initializeApp(config)
 }
 
-export const auth = firebase.auth()
-export const db = firebase.firestore()
+export const auth = firebase.auth
+export const db = firebase.firestore
 export const storage = firebase.storage
 export default firebase

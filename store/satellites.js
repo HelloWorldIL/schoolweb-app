@@ -1,5 +1,5 @@
 import { db, storage } from '~/services/firebaseinit'
-const satellites = db.collection('satellites')
+const satellites = db().collection('satellites')
 
 export const state = () => ({
   satellites: []

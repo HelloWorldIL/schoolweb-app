@@ -16,10 +16,10 @@
       v-card-actions
         v-layout(row wrap)
           v-flex(xs12 class="text-xs-center")
-            v-btn(round color="#0a4bb2" dark @click="login()")
+            v-btn(round color="#0a4bb2" dark @click="login" :loading="loading")
               | Log In
               v-icon(right) lock_open
-            v-btn(flat round color="#b637e5" @click="login()")
+            v-btn(flat round color="#b637e5" @click="loginGoogle")
               | Sign Up
               v-icon(right) person_add
           v-flex(xs12 class="mt-3 text-xs-center")
@@ -27,24 +27,46 @@
 </template>
 
 <script>
+import googleSignInButton from '@/components/googleSignInButton'
+
 export default {
+  components: {
+    googleSignInButton
+  },
   data: function() {
     return {
       email: '',
       password: '',
       error: '',
+      loading: false,
       timeout: null
     }
   },
   methods: {
     login() {
+      this.loading = true
       this.$store
         .dispatch('auth/loginUsingEmail', {
           email: this.email,
           password: this.password
         })
-        .then(user => {})
+        .then(user => {
+          this.loading = false
+        })
         .catch(error => {
+          this.loading = false
+          this.raiseError(error)
+        })
+    },
+    loginGoogle() {
+      this.loading = true
+      this.$store
+        .dispatch('auth/signInUsingGoogle')
+        .then(user => {
+          this.loading = false
+        })
+        .catch(error => {
+          this.loading = false
           this.raiseError(error)
         })
     },

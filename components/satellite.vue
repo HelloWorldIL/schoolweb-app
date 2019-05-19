@@ -9,7 +9,7 @@
       span ID: {{id}}
       v-card-actions
         v-spacer
-        v-btn(color="red" flat @click="remove()") Remove
+        v-btn(color="red" flat @click="remove()" v-if="isAuthenticated") Remove
 </template>
 
 <script>
@@ -26,6 +26,11 @@ export default {
     imageUrl: {
       type: String,
       default: ''
+    }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
     }
   },
   methods: {
