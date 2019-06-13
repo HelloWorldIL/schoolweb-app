@@ -45,6 +45,7 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/firebase',
+    '@/plugins/router-auth',
     { src: '@/plugins/uploadBtn', ssr: false }
   ],
 
@@ -78,8 +79,5 @@ module.exports = {
         })
       }
     }
-  },
-  router: {
-    middleware: 'router-auth'
   }
 }

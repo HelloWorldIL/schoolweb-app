@@ -1,6 +1,5 @@
 <template lang="pug">
   div
-    v-alert(class="mb-0" transition="slide-y-reverse-transition" type="error" :value="error !=''") {{error}}
     v-card
       v-card-title
         v-layout(row wrap justify-center)
@@ -16,10 +15,10 @@
       v-card-actions
         v-layout(row wrap)
           v-flex(xs12 class="text-xs-center")
-            v-btn(round color="#0a4bb2" dark @click="login" :loading="loading")
+            v-btn(round color="#0a4bb2" dark @click="login" :loading="loadingLogin")
               | Log In
               v-icon(right) lock_open
-            v-btn(flat round color="#b637e5" @click="loginGoogle")
+            v-btn(flat round color="#b637e5" @click="loginGoogle" :loading="loadingSignUp")
               | Sign Up
               v-icon(right) person_add
           v-flex(xs12 class="mt-3 text-xs-center")
@@ -37,45 +36,41 @@ export default {
     return {
       email: '',
       password: '',
-      error: '',
-      loading: false,
+      loadingLogin: false,
+      loadingSignUp: false,
       timeout: null
     }
   },
   methods: {
     login() {
-      this.loading = true
+      this.loadingLogin = true
       this.$store
         .dispatch('auth/loginUsingEmail', {
           email: this.email,
           password: this.password
         })
         .then(user => {
-          this.loading = false
+          this.loadingLogin = false
         })
         .catch(error => {
-          this.loading = false
+          this.loadingLogin = false
           this.raiseError(error)
         })
     },
     loginGoogle() {
-      this.loading = true
+      this.loadingSignUp = true
       this.$store
         .dispatch('auth/signInUsingGoogle')
         .then(user => {
-          this.loading = false
+          this.loadingSignUp = false
         })
         .catch(error => {
-          this.loading = false
+          this.loadingSignUp = false
           this.raiseError(error)
         })
     },
     raiseError(error) {
-      this.error = error
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {
-        this.error = ''
-      }, 10000)
+      this.$emit('error', error)
     }
   }
 }
