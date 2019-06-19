@@ -44,7 +44,7 @@ export const actions = {
       auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
-          user.user.updateProfile(payload.name).then(() => {
+          user.user.updateProfile({ displayName: payload.name }).then(() => {
             resolve(user.user)
           })
         })

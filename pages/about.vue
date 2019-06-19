@@ -4,7 +4,7 @@
       div
         .headline HSL
         span {{about_text}}
-    v-img(src="/sat.jpg")
+    v-img(:src="require('@/assets/sat.jpg')")
 </template>
 
 <script>

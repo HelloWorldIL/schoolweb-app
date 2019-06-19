@@ -1,9 +1,24 @@
 <template lang="pug">
-  v-btn(color="#4285F4")
-    v-container(color="accent")
-      v-icon(v-text="'$vuetify.icons.google'" left)
+  v-btn(:loading="loading")
+    googleIcon(class="mr-1")
+    |Sign In with google
 </template>
 
 <script>
-export default {}
+import googleIcon from '@/components/googleIcon'
+
+export default {
+  components: {
+    googleIcon
+  },
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    signIn(user) {}
+  }
+}
 </script>

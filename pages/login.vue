@@ -5,15 +5,17 @@
         v-flex
           v-alert(class="mb-0" transition="slide-y-reverse-transition" type="error" :value="error !=''") {{error}}
         v-flex
-          login(@error="handleError")
+          login(@error="handleError" @signUp="signUp")
 </template>
 
 <script>
 import login from '~/components/login.vue'
+import signup from '~/components/signup'
 
 export default {
   components: {
-    login
+    login,
+    signup
   },
   data: function() {
     return {
@@ -27,7 +29,8 @@ export default {
       this.timeout = setTimeout(() => {
         this.error = ''
       }, 10000)
-    }
+    },
+    signUp() {}
   }
 }
 </script>

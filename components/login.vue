@@ -18,9 +18,11 @@
             v-btn(round color="#0a4bb2" dark @click="login" :loading="loadingLogin")
               | Log In
               v-icon(right) lock_open
-            v-btn(flat round color="#b637e5" @click="loginGoogle" :loading="loadingSignUp")
+            v-btn(flat round color="#b637e5" to="/signup")
               | Sign Up
               v-icon(right) person_add
+          v-flex(xs12 class="mt-3 text-xs-center")
+            googleSignInButton(@click.native="loginGoogle" :loading="loadingGoogle")
           v-flex(xs12 class="mt-3 text-xs-center")
             p(class="grey--text pointer") Forgot your password?
 </template>
@@ -37,6 +39,7 @@ export default {
       email: '',
       password: '',
       loadingLogin: false,
+      loadingGoogle: false,
       loadingSignUp: false,
       timeout: null
     }
@@ -58,16 +61,19 @@ export default {
         })
     },
     loginGoogle() {
-      this.loadingSignUp = true
+      this.loadingGoogle = true
       this.$store
         .dispatch('auth/signInUsingGoogle')
         .then(user => {
-          this.loadingSignUp = false
+          this.loadingGoogle = false
         })
         .catch(error => {
-          this.loadingSignUp = false
+          this.loadingGoogle = false
           this.raiseError(error)
         })
+    },
+    signUp() {
+      this.$emit('signUp')
     },
     raiseError(error) {
       this.$emit('error', error)

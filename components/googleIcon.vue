@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="googleIcon">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -50,3 +50,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.googleIcon
+  background-color: white
+</style>
