@@ -52,7 +52,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@neneos/nuxt-animate.css'],
+  modules: ['@neneos/nuxt-animate.css', 'nuxt-validate'],
 
   /*
    ** Build configuration

@@ -6,12 +6,12 @@
           v-flex(xs10 class="text-xs-center")
             h1 Log In
       v-card-text
-        v-form()
+        v-form(v-model="valid")
           v-layout(row wrap justify-center)
             v-flex(xs10 sm10)
-              v-text-field(outline v-model="email" label="Email" type="email")
+              v-text-field(outline v-model="email" label="Email" type="text" data-vv-name="email" required v-validate="'required|email'" :error-messages="errors.collect('email')")
             v-flex(xs10 sm10)
-              v-text-field(outline v-model="password" label="Password" required type="password")
+              v-text-field(outline v-model="password" label="Password" required data-vv-name="password" type="password" v-validate="'required|min:6'" :error-messages="errors.collect('password')")
       v-card-actions
         v-layout(row wrap)
           v-flex(xs12 class="text-xs-center")
@@ -36,6 +36,7 @@ export default {
   },
   data: function() {
     return {
+      valid: false,
       email: '',
       password: '',
       loadingLogin: false,

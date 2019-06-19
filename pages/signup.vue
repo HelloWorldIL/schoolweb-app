@@ -3,7 +3,7 @@
     v-container(fluid)
       v-layour(column)
         v-flex
-            v-alert(class="mb-0" transition="slide-y-reverse-transition" type="error" :value="error !=''") {{error}}
+          v-alert(class="mb-0" transition="slide-y-reverse-transition" type="error" :value="error !=''") {{error}}
         v-flex
           v-card
             v-card-title
@@ -14,11 +14,13 @@
               v-form()
                 v-layout(row wrap justify-center)
                   v-flex(xs10 sm10)
-                    v-text-field(outline v-model="name" label="Name")
+                    v-text-field(outline v-model="name" label="Name" required)
                   v-flex(xs10 sm10)
-                    v-text-field(outline v-model="email" label="Email" type="email")
+                    v-text-field(outline v-model="email" label="Email" type="text" data-vv-name="email" required v-validate="'required|email'" :error-messages="errors.collect('email')")
                   v-flex(xs10 sm10)
-                    v-text-field(outline v-model="password" label="Password" required type="password")
+                    v-text-field(outline v-model="password" label="Password" required data-vv-name="password" type="password" v-validate="'required|min:6'" :error-messages="errors.collect('password')" ref="password")
+                  v-flex(xs10 sm10)
+                    v-text-field(outline v-model="confirmPassword" label="Confirm Password" required data-vv-name="confirmPassword" data-vv-as="password" type="password" v-validate="'required|confirmed:password'" :error-messages="errors.collect('confirmPassword')")
             v-card-actions
               v-layout(row wrap)
                 v-flex(xs12 class="text-xs-center")
@@ -35,6 +37,7 @@ export default {
     return {
       email: '',
       password: '',
+      confirmPassword: '',
       name: '',
       error: '',
       loading: false
