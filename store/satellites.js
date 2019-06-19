@@ -52,49 +52,21 @@ export const mutations = {
 }
 
 export const actions = {
-  loadSatellites({ commit, state, dispatch }) {
+  loadSatellites({ commit, state }) {
     return new Promise(function(resolve, reject) {
-      if (state.satellites.length > 0) {
-        resolve(state.satellites)
-      } else {
-        satellites.get().then(snapshot => {
-          snapshot.forEach(satDoc => {
-            const sat = {
-              id: satDoc.id,
-              name: satDoc.get('name'),
-              imageName: satDoc.get('imageName'),
-              imageUrl: satDoc.get('imageUrl')
-            }
-            commit('addSatellite', sat)
-          })
-          resolve(state.satellites)
+      satellites.onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(satDoc => {
+          if (satDoc.type === 'removed') {
+            // eslint-disable-next-line no-console
+            console.log(satDoc.doc.id)
+            commit('removeSatellite', satDoc.doc.id)
+          } else if (satDoc.type === 'added') {
+            commit('addSatellite', satDoc.doc.data())
+          } else {
+            commit('editSat', satDoc.doc.data())
+          }
         })
-      }
-      dispatch('registerSatelliteListener')
-    })
-  },
-  registerSatelliteListener({ commit, state }) {
-    satellites.onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(satDoc => {
-        if (satDoc.type === 'removed') {
-          commit('removeSatellite', satDoc.doc.id)
-        } else if (satDoc.type === 'added') {
-          const sat = {
-            id: satDoc.doc.id,
-            name: satDoc.doc.get('name'),
-            imageName: satDoc.doc.get('imageName'),
-            imageUrl: satDoc.doc.get('imageUrl')
-          }
-          commit('addSatellite', sat)
-        } else {
-          const sat = {
-            id: satDoc.doc.id,
-            name: satDoc.doc.get('name'),
-            imageName: satDoc.doc.get('imageName'),
-            imageUrl: satDoc.doc.get('imageUrl')
-          }
-          commit('editSat', sat)
-        }
+        resolve()
       })
     })
   },
@@ -112,6 +84,7 @@ export const actions = {
             .then(imageUrl => {
               satellites.doc(satellite.id).set({
                 name: satellite.name,
+                id: satellite.id,
                 imageName: `${satellite.id}${ext}`,
                 imageUrl: `${imageUrl}`
               })

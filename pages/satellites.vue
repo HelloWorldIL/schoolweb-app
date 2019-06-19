@@ -29,18 +29,19 @@ export default {
   data() {
     return {
       showDialog: false,
-      satLoaded: false,
-      satellites: []
+      satLoaded: false
     }
   },
   computed: {
+    satellites: function() {
+      return this.$store.getters['satellites/getSatellites']
+    },
     isAuthenticated: function() {
       return this.$store.getters['auth/isAuthenticated']
     }
   },
   mounted() {
-    this.$store.dispatch('satellites/loadSatellites').then(satellites => {
-      this.satellites = satellites
+    this.$store.dispatch('satellites/loadSatellites').then(() => {
       this.satLoaded = true
     })
   },
