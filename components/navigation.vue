@@ -5,7 +5,7 @@
     v-spacer
     v-toolbar-items
       v-btn(flat v-for="item in items" :key="item.link" :to="item.link") {{ item.title }}
-      v-btn(light to="/login" v-if="!user") Log In
+      v-btn(light color="primary" to="/login" v-if="!user") Log In
       v-btn(light @click="logOut" v-if="user") Log Out
 </template>
 
