@@ -1,7 +1,7 @@
 <template lang="pug">
   v-flex(xs12 sm10 md8 lg5 x14)
     v-container(fluid)
-      v-layour(column)
+      v-layout(column)
         v-flex
           v-alert(class="mb-0" transition="slide-y-reverse-transition" type="error" :value="error !=''") {{error}}
         v-flex
@@ -14,7 +14,7 @@
               v-form()
                 v-layout(row wrap justify-center)
                   v-flex(xs10 sm10)
-                    v-text-field(outline v-model="name" label="Name" required)
+                    v-text-field(outline v-model="name" label="Name" required data-vv-name="name" v-validate="'required'")
                   v-flex(xs10 sm10)
                     v-text-field(outline v-model="email" label="Email" type="text" data-vv-name="email" required v-validate="'required|email'" :error-messages="errors.collect('email')")
                   v-flex(xs10 sm10)
@@ -46,18 +46,24 @@ export default {
   methods: {
     signUp() {
       this.loading = true
-      this.$store
-        .dispatch('auth/signUpUsingEmail', {
-          email: this.email,
-          password: this.password
-        })
-        .then(user => {
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
           this.loading = false
-        })
-        .catch(error => {
-          this.handleError(error)
-          this.loading = false
-        })
+          return
+        }
+        this.$store
+          .dispatch('auth/signUpUsingEmail', {
+            email: this.email,
+            password: this.password
+          })
+          .then(user => {
+            this.loading = false
+          })
+          .catch(error => {
+            this.handleError(error)
+            this.loading = false
+          })
+      })
     },
     handleError(error) {
       this.error = error

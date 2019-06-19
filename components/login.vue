@@ -48,18 +48,24 @@ export default {
   methods: {
     login() {
       this.loadingLogin = true
-      this.$store
-        .dispatch('auth/loginUsingEmail', {
-          email: this.email,
-          password: this.password
-        })
-        .then(user => {
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
           this.loadingLogin = false
-        })
-        .catch(error => {
-          this.loadingLogin = false
-          this.raiseError(error)
-        })
+          return
+        }
+        this.$store
+          .dispatch('auth/loginUsingEmail', {
+            email: this.email,
+            password: this.password
+          })
+          .then(user => {
+            this.loadingLogin = false
+          })
+          .catch(error => {
+            this.loadingLogin = false
+            this.raiseError(error)
+          })
+      })
     },
     loginGoogle() {
       this.loadingGoogle = true
