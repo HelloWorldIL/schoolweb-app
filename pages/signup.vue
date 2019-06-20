@@ -43,6 +43,9 @@ export default {
       loading: false
     }
   },
+  meta: {
+    auth: -1
+  },
   methods: {
     signUp() {
       this.loading = true

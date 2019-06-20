@@ -17,6 +17,9 @@ export default {
     login,
     signup
   },
+  meta: {
+    auth: -1
+  },
   data: function() {
     return {
       error: ''

@@ -45,9 +45,16 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/firebase',
-    '@/plugins/router-auth',
+    { src: '@/plugins/router-auth', mode: 'client' },
     { src: '@/plugins/uploadBtn', ssr: false }
   ],
+
+  /*
+   ** Nuxt router
+   */
+  router: {
+    middleware: ['auth-protection']
+  },
 
   /*
    ** Nuxt.js modules
